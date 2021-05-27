@@ -357,19 +357,55 @@ def unitTest():
     # 绘制直方图测试
     processor.drawHistogram()
 
+
 def hwTest():
     """
     按照作业要求测试
     """
     print('实验开始\n')
-    processor = ImgProcessor(cv2.imread('22.bmp'), doGaussian=False, gaussKSize=(3, 3), gradientOpe='sobel', gTh=0)
+    processor = ImgProcessor(cv2.imread('23.bmp'), doGaussian=True, gaussKSize=(3, 3), gradientOpe='sobel', gTh=60)
     print('\n')
 
     print('阈值分割算法结果复现\n')
 
+    print('腿部CT图灰度图与边界采样灰度图\n')
+    # processor.setHyperPara(doGaussian=True, gaussKSize=(3, 3), gradientOpe='prewitt', gTh=50)
+    processor.setHyperPara(doGaussian=True, gaussKSize=(3, 3), gradientOpe='sobel', gTh=60)
+    processor.drawHistogram(normed=False)
     print('\n')
 
+    print('腿部CT图灰度图多阈值分割\n')
+    processor.setHyperPara(doGaussian=False, gradientOpe='sobel', gTh=60)
+    biGraph1 = processor.binaryzation(threshold=25)
+    biGraph2 = processor.binaryzation(threshold=68)
+    biGraph3 = processor.binaryzation(threshold=125)
+    cv2.imshow('biGraph1', biGraph1)
+    cv2.imshow('biGraph2', biGraph2)
+    cv2.imshow('biGraph3', biGraph3)
+    cv2.waitKey(0)
+    print('\n')
+
+    print('头部CT图灰度图与边界采样灰度图')
+    processor.changeImg(cv2.imread('22.bmp'))
+    processor.setHyperPara(doGaussian=True, gaussKSize=(3, 3), gradientOpe='sobel', gTh=280)
+    processor.drawHistogram()
+    print('\n')
+
+    print('头部CT图灰度图多阈值分割\n')
+    processor.changeImg(cv2.imread('22.bmp'))
+    processor.setHyperPara(doGaussian=True, gaussKSize=(3, 3), gradientOpe='sobel', gTh=280)
+    processor.drawHistogram()
+    biGraph1 = processor.binaryzation(threshold=50)
+    biGraph2 = processor.binaryzation(threshold=170)
+    cv2.imshow('biGraph1', biGraph1)
+    cv2.imshow('biGraph2', biGraph2)
+    cv2.waitKey(0)
+    print('\n')
+
+    print('对比实验\n')
+
     print('不同梯度阈值对比\n')
+    processor.changeImg(cv2.imread('22.bmp'))
     for gTh in [100, 150, 200, 250, 300, 350]:
         processor.setHyperPara(gTh=gTh)
         processor.drawHistogram(normed=True)
