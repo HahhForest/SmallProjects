@@ -1,4 +1,4 @@
-**SJTU-AU338-数字图像处理-大作业1**
+**SJTU-AU333-数字图像处理-大作业1**
 # 复现：Threshold selection by clustering gray levels of boundary, Pattern Recognition Letters 24 (2003) 1983–1999
 
 [TOC]
